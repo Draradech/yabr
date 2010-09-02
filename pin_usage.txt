@@ -1,0 +1,37 @@
+Pin    Func    Usage
+
+PA0    ADC0    Battery
+PA1    ADC1    MaxSonar 1
+PA2    ADC2    MaxSonar 2
+PA3    ADC3    
+PA4    ADC4    
+PA5    ADC5    
+PA6    ADC6    
+PA7    ADC7    
+
+PB0            M1 lsa
+PB1            M1 lsb
+PB2            M1 a
+PB3    OC0A    M1 b
+PB4    OC0B    
+PB5    MOSI    MOSI
+PB6    MISO    MISO
+PB7    SCK     SCK
+
+PC0            M2 lsa
+PC1            M2 lsb
+PC2            M2 a
+PC3            M2 b
+PC4            MaxSonar 1 RX
+PC5            MaxSonar 2 RX
+PC6            Gyro SS
+PC7            Acc SS
+
+PD0    RXD0    Bluetooth
+PD1    TXD0    Bluetooth
+PD2    RXD1    
+PD3    TXD1    
+PD4    OC1B    Speaker
+PD5    OC1A    
+PD6    OC2B    M1 pwm
+PD7    OC2A    M2 pwm
