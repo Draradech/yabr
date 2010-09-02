@@ -3,8 +3,7 @@
 static volatile bool loopActive;
 static volatile uint8_t ticksSinceLoopStart;
 
-void main(void) __attribute__((noreturn));
-void main(void)
+void __attribute__((noreturn)) main(void)
 {
     init();
     
@@ -26,7 +25,7 @@ void main(void)
     }
 }
 
-ISR(TIMER2_COMPA_vect)
+ISR(TIMER0_COMPA_vect)
 {
     // Mainloop Control
     ticksSinceLoopStart++;

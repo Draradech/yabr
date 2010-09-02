@@ -69,12 +69,12 @@ void init()
 
     // PD7
 
-    // Timer 2 - Mainloop
-    TCCR2A |= (1 << WGM21);     // CTC mode, 
-    TCCR2B |= (1 << CS21);		
-    OCR2A = 50 - 1;             // Prescalar 8, TOP 50 -> 50000 Hz
+    // Timer 0 - Mainloop
+    TCCR0A |= (1 << WGM01);     // CTC mode,
+    TCCR0B |= (1 << CS01);
+    OCR0A = 50 - 1;             // Prescalar 8, TOP 50 -> 50000 Hz
      
-    TIMSK2 |= (1 << OCIE2A);    // Output compare interrupt enable
+    TIMSK0 |= (1 << OCIE0A);    // Output compare interrupt enable
 
     // Enable Interrupts
     sei();
