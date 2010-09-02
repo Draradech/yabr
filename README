@@ -1,0 +1,8 @@
+Yet Another Balancing Robot
+
+Contents
+
+firmware        controller firmware for atmega644p board
+hardware        eagle files for atmega644p board, motor controller and sca3000 adapter
+tool_android    android app to control robot remotely
+tool_pc         pc tool to view live data output and to control robot remotely
