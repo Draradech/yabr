@@ -11,7 +11,7 @@ TARGET = yabr
 
 
 # C source files
-SRC = ram.c serial.c environment.c init.c main.c
+SRC = environment.c init.c main.c ram.c sensor.c serial.c 
 
 
 # Optimization level
@@ -44,6 +44,8 @@ CFLAGS += -Wundef
 CFLAGS += -Wsign-compare
 CFLAGS += -std=gnu99
 CFLAGS += -DF_CPU=$(F_CPU)UL
+# bug in avr-libc 1.7.0, so do not use builtin delay cycles
+CFLAGS += -D__HAS_DELAY_CYCLES=0
 CFLAGS += -I.
 
 

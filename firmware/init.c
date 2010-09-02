@@ -1,6 +1,6 @@
 #include "stdinc.h"
 
-void init()
+void init(void)
 {
     // PA0 - ADC0 - Battery
 

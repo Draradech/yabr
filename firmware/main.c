@@ -13,6 +13,8 @@ void __attribute__((noreturn)) main(void)
         {
             ; // wait for next loop
         }
+		
+		readSensors();
         
         input();
 
