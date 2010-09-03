@@ -31,10 +31,6 @@ CFLAGS += -funsigned-bitfields
 CFLAGS += -fpack-struct
 CFLAGS += -fshort-enums
 CFLAGS += -ffreestanding
-CFLAGS += -ffunction-sections
-CFLAGS += -fdata-sections
-CFLAGS += -fno-tree-scev-cprop
-CFLAGS += -fno-split-wide-types
 CFLAGS += -combine
 CFLAGS += -fwhole-program
 CFLAGS += -Wall
@@ -51,7 +47,6 @@ CFLAGS += -I.
 
 #---------------- Linker Options ----------------
 LDFLAGS  = -Wl,--relax
-LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -lm
 
 
