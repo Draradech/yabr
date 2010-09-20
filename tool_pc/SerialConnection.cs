@@ -1,0 +1,7 @@
+﻿
+namespace YabrTool
+{
+    class SerialConnection
+    {
+    }
+}

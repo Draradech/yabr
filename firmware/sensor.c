@@ -26,6 +26,11 @@ static void readAdc(void)
 		_delay_us(30);
 		PORTC &= ~(1 << PC5);
 	}
+	else
+	{
+		// near-constant runtime, please
+		_delay_us(30);
+	}
 }
 
 void readSensors(void)

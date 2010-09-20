@@ -81,7 +81,8 @@ MSG_EEPROM = Creating load file for EEPROM:
 MSG_EXTENDED_LISTING = Creating Extended Listing:
 MSG_COMPILING_LINKING = Compiling and Linking:
 MSG_CLEANING = Cleaning project:
-
+MSG_PROGRAM_FLASH = Programming target flash:
+MSG_PROGRAM_EEPROM = Programming target eeprom:
 
 # Default target.
 all: build size
@@ -104,12 +105,24 @@ size:
 
 # Program the device  
 program: $(TARGET).hex
+	@echo
+	@echo $(MSG_PROGRAM_FLASH)
+	launcher.cs -p $(AVRDUDE_PORT)
+	sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
+	sleep 1
+	launcher.cs -p $(AVRDUDE_PORT) -d
 
 
 # Program the eeprom
 program_eeprom: $(TARGET).eep
+	@echo
+	@echo $(MSG_PROGRAM_EEPROM)
+	launcher.cs -p $(AVRDUDE_PORT)
+	sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_EEPROM)
+	sleep 1
+	launcher.cs -p $(AVRDUDE_PORT) -d
 
 
 # Create final output files (.hex, .eep) from ELF output file.
