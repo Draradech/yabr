@@ -1,7 +1,0 @@
-﻿
-namespace YabrTool
-{
-    class ChannelHandler
-    {
-    }
-}

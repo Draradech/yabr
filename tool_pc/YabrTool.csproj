@@ -50,9 +50,13 @@
     <Compile Include="Canvas.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Channel.cs" />
-    <Compile Include="ChannelHandler.cs" />
-    <Compile Include="SerialConnection.cs" />
+    <Compile Include="Channel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Channels.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Serial.cs" />
     <Compile Include="YabrTool.cs">
       <SubType>Form</SubType>
     </Compile>

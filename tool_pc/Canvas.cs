@@ -5,9 +5,15 @@ using OpenTK.Graphics.OpenGL;
 
 namespace YabrTool
 {
-    class Canvas : GLControl
+    public class Canvas : GLControl
     {
         private Random r = new Random();
+        private YabrTool yabrTool;
+
+        public Canvas(YabrTool yabrTool)
+        {
+            this.yabrTool = yabrTool;
+        }
 
         private void glLine(Int32 x1, Int32 y1, Int32 x2, Int32 y2)
         {
@@ -41,7 +47,7 @@ namespace YabrTool
             Int32 y = 0, yo = 0;
             for (Int32 i = 0; i < 5; ++i)
             {
-                GL.Color3(r.NextDouble(), r.NextDouble(), r.NextDouble());
+                GL.Color3(r.NextDouble() / 4, r.NextDouble() / 4, r.NextDouble() / 4);
                 for (Int32 x = 0; x < Width; ++x)
                 {
                     y = (Int32)(r.NextDouble() * Height);
@@ -71,7 +77,6 @@ namespace YabrTool
         protected override void OnLoad(System.EventArgs e)
         {
             base.OnLoad(e);
-
             GL.Disable(EnableCap.DepthTest);
             GL.ClearColor(Color.Black);
             OnResize(null);
