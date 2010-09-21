@@ -12,24 +12,18 @@ static void readAdc(void)
 
 	ADCSRA |= (1 << ADSC);
 	
+    PORTC &= ~(1 << PC4);
+    PORTC &= ~(1 << PC5);
+
 	sonarTimer++;
 	if(sonarTimer == MS_TO_LOOP(50))
 	{
 		PORTC |= (1 << PC4);
-		_delay_us(30);
-		PORTC &= ~(1 << PC4);
 	}
 	else if(sonarTimer == MS_TO_LOOP(100))
 	{
 		sonarTimer = MS_TO_LOOP(0);
 		PORTC |= (1 << PC5);
-		_delay_us(30);
-		PORTC &= ~(1 << PC5);
-	}
-	else
-	{
-		// near-constant runtime, please
-		_delay_us(30);
 	}
 }
 
