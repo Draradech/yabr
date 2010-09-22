@@ -1,12 +1,11 @@
 ﻿using System;
 using System.IO.Ports;
+using System.Collections.Generic;
 
 namespace YabrTool
 {
     public class Serial
     {
-        private const Int32 DATABUFFER = 32;
-
         private enum ReceiveState
         {
             Nothing,
@@ -17,15 +16,12 @@ namespace YabrTool
 
         private YabrTool yabrTool;
         private SerialPort port = new SerialPort();
-        private Byte[] packetData = new Byte[DATABUFFER];
+        private List<Byte> packetData = new List<Byte>();
         private Byte command;
-        private Byte packetSize;
         private Boolean decryptNext;
         private Boolean inPacket;
 
         public Boolean IsConnected { get { return port.IsOpen; } }
-        
-
 
         public Serial(YabrTool yabrTool)
         {
@@ -33,30 +29,25 @@ namespace YabrTool
             port.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
         }
 
-
-
         void DataReceived(Object sender, SerialDataReceivedEventArgs e)
         {
             while (ReceivePacket())
             {
                 switch (command)
                 {
-                    case (Byte)'t':
+                    case (Byte)'m':
                     {
-                        Int16[] test = new Int16[4];
-                        for (Int32 i = 0; i < 4; ++i)
+                        Int16[] measurement = new Int16[packetData.Count / 2];
+                        for (Int32 i = 0; i < packetData.Count / 2; ++i)
                         {
-                            test[i] = (Int16)(packetData[2 * i] << 8 | packetData[2 * i + 1]);
-                            Console.WriteLine(String.Format("{0}", test[i]));
+                            measurement[i] = (Int16)(packetData[2 * i] << 8 | packetData[2 * i + 1]);
                         }
-                        Console.WriteLine();
+                        yabrTool.Channels.AppendMeasurement(measurement);
                         break;
                     }
                 }
             }
         }
-
-        
 
         public void Connect(String portName)
         {
@@ -66,8 +57,6 @@ namespace YabrTool
             port.Open();
         }
 
-
-
         public void Disconnect()
         {
             if (port.IsOpen)
@@ -75,8 +64,6 @@ namespace YabrTool
                 port.Close();
             }
         }
-
-
 
         private ReceiveState Receive(ref Byte received)
         {
@@ -121,8 +108,6 @@ namespace YabrTool
             return ReceiveState.Nothing;
         }
 
-
-
         private Boolean ReceivePacket()
         {
             ReceiveState state = ReceiveState.Nothing;
@@ -136,24 +121,19 @@ namespace YabrTool
                     if(state == ReceiveState.Begin)
                     {
                         // incomplete packet in buffer, discard
-                        packetSize = 0;
+                        packetData.Clear();
+                        command = 0;
                     }
                     else if(state == ReceiveState.Data)
                     {
-                        if(packetSize == 0)
+                        if(command == 0)
                         {
                             command = received;
                         }
-                        else if(packetSize - 1 < DATABUFFER)
-                        {
-                            packetData[packetSize - 1] = received;
-                        }
                         else
                         {
-                            // packet too long for buffer, discard
-                            inPacket = false;
+                            packetData.Add(received);
                         }
-                        packetSize++;
                     }
                     else if(state == ReceiveState.End)
                     {
@@ -168,7 +148,8 @@ namespace YabrTool
                     if(state == ReceiveState.Begin)
                     {
                         inPacket = true;
-                        packetSize = 0;
+                        packetData.Clear();
+                        command = 0;
                     }
                     else if(state == ReceiveState.Data)
                     {
@@ -183,7 +164,5 @@ namespace YabrTool
     
             return false;
         }
-
-    
     }
 }

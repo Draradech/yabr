@@ -240,7 +240,7 @@ bool recvPacket(uint8_t *command, uint8_t *size, uint8_t **dataout)
             {
                 // packet complete, deliver
                 inPacket = false;
-                *size = bytesInPacket;
+                *size = bytesInPacket - 1;
                 *command = commandSave;
                 *dataout = data;
                 return true;

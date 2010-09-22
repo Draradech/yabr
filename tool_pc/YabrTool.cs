@@ -11,7 +11,6 @@ namespace YabrTool
         private Stopwatch watch = new Stopwatch();
         private Int32 frames = 0;
         private Serial serial;
-        private Channels channels;
         private Canvas canvas;
 
         public Serial Serial { get { return serial; } }
@@ -23,7 +22,6 @@ namespace YabrTool
             InitializeComponent();
 
             serial = new Serial(this);
-            channels = new Channels(this);
             canvas = new Canvas(this);
 
             canvas.Dock = System.Windows.Forms.DockStyle.Fill;

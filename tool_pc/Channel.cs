@@ -2,7 +2,7 @@
 
 namespace YabrTool
 {
-    class Channel : Panel
+    class Channel : UserControl
     {
     }
 }

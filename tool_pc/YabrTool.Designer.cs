@@ -33,6 +33,7 @@
             this.comPortComboBox = new System.Windows.Forms.ComboBox();
             this.connectButton = new System.Windows.Forms.Button();
             this.canvasContainer = new System.Windows.Forms.Panel();
+            this.channels = new YabrTool.Channels();
             this.primaryLayout.SuspendLayout();
             this.toolbarLayout.SuspendLayout();
             this.SuspendLayout();
@@ -42,11 +43,13 @@
             this.primaryLayout.ColumnCount = 1;
             this.primaryLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.primaryLayout.Controls.Add(this.toolbarLayout, 0, 0);
-            this.primaryLayout.Controls.Add(this.canvasContainer, 0, 1);
+            this.primaryLayout.Controls.Add(this.canvasContainer, 0, 2);
+            this.primaryLayout.Controls.Add(this.channels, 0, 1);
             this.primaryLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.primaryLayout.Location = new System.Drawing.Point(0, 0);
             this.primaryLayout.Name = "primaryLayout";
-            this.primaryLayout.RowCount = 2;
+            this.primaryLayout.RowCount = 3;
+            this.primaryLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.primaryLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.primaryLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.primaryLayout.Size = new System.Drawing.Size(800, 600);
@@ -84,10 +87,20 @@
             // 
             this.canvasContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.canvasContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.canvasContainer.Location = new System.Drawing.Point(3, 38);
+            this.canvasContainer.Location = new System.Drawing.Point(3, 48);
             this.canvasContainer.Name = "canvasContainer";
-            this.canvasContainer.Size = new System.Drawing.Size(794, 559);
+            this.canvasContainer.Size = new System.Drawing.Size(794, 549);
             this.canvasContainer.TabIndex = 1;
+            // 
+            // channels
+            // 
+            this.channels.AutoSize = true;
+            this.channels.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.channels.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.channels.Location = new System.Drawing.Point(3, 38);
+            this.channels.Name = "channels";
+            this.channels.Size = new System.Drawing.Size(794, 4);
+            this.channels.TabIndex = 2;
             // 
             // YabrTool
             // 
@@ -109,6 +122,7 @@
         private System.Windows.Forms.ComboBox comPortComboBox;
         private System.Windows.Forms.Panel canvasContainer;
         private System.Windows.Forms.Button connectButton;
+        private Channels channels;
 
     }
 }
