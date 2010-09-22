@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8A4997C0-8917-478A-8207-97054F060044}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>YabrTool</RootNamespace>
     <AssemblyName>YabrTool</AssemblyName>
@@ -32,6 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenTK, Version=1.0.0.201, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
@@ -60,10 +63,10 @@
     <Compile Include="YabrTool.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="YabrTool.Designer.cs">
       <DependentUpon>YabrTool.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

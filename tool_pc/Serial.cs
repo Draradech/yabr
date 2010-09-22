@@ -35,7 +35,7 @@ namespace YabrTool
             {
                 switch (command)
                 {
-                    case (Byte)'m':
+                    case (Byte)'t':
                     {
                         Int16[] measurement = new Int16[packetData.Count / 2];
                         for (Int32 i = 0; i < packetData.Count / 2; ++i)

@@ -33,7 +33,9 @@
             this.comPortComboBox = new System.Windows.Forms.ComboBox();
             this.connectButton = new System.Windows.Forms.Button();
             this.canvasContainer = new System.Windows.Forms.Panel();
-            this.channels = new YabrTool.Channels();
+            this.channelsContainer = new System.Windows.Forms.Panel();
+            this.refreshButton = new System.Windows.Forms.Button();
+            this.fpsLabel = new System.Windows.Forms.Label();
             this.primaryLayout.SuspendLayout();
             this.toolbarLayout.SuspendLayout();
             this.SuspendLayout();
@@ -44,7 +46,7 @@
             this.primaryLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.primaryLayout.Controls.Add(this.toolbarLayout, 0, 0);
             this.primaryLayout.Controls.Add(this.canvasContainer, 0, 2);
-            this.primaryLayout.Controls.Add(this.channels, 0, 1);
+            this.primaryLayout.Controls.Add(this.channelsContainer, 0, 1);
             this.primaryLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.primaryLayout.Location = new System.Drawing.Point(0, 0);
             this.primaryLayout.Name = "primaryLayout";
@@ -59,11 +61,13 @@
             // 
             this.toolbarLayout.AutoSize = true;
             this.toolbarLayout.Controls.Add(this.comPortComboBox);
+            this.toolbarLayout.Controls.Add(this.refreshButton);
             this.toolbarLayout.Controls.Add(this.connectButton);
+            this.toolbarLayout.Controls.Add(this.fpsLabel);
             this.toolbarLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolbarLayout.Location = new System.Drawing.Point(3, 3);
             this.toolbarLayout.Name = "toolbarLayout";
-            this.toolbarLayout.Size = new System.Drawing.Size(794, 29);
+            this.toolbarLayout.Size = new System.Drawing.Size(794, 27);
             this.toolbarLayout.TabIndex = 0;
             // 
             // comPortComboBox
@@ -76,31 +80,54 @@
             // 
             // connectButton
             // 
-            this.connectButton.Location = new System.Drawing.Point(130, 3);
+            this.connectButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.connectButton.Location = new System.Drawing.Point(211, 3);
             this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(75, 23);
+            this.connectButton.Size = new System.Drawing.Size(75, 21);
             this.connectButton.TabIndex = 1;
-            this.connectButton.Text = "button1";
+            this.connectButton.Text = "Connect";
             this.connectButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // canvasContainer
             // 
             this.canvasContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.canvasContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.canvasContainer.Location = new System.Drawing.Point(3, 48);
+            this.canvasContainer.Location = new System.Drawing.Point(3, 46);
             this.canvasContainer.Name = "canvasContainer";
-            this.canvasContainer.Size = new System.Drawing.Size(794, 549);
+            this.canvasContainer.Size = new System.Drawing.Size(794, 551);
             this.canvasContainer.TabIndex = 1;
             // 
-            // channels
+            // channelsContainer
             // 
-            this.channels.AutoSize = true;
-            this.channels.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.channels.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.channels.Location = new System.Drawing.Point(3, 38);
-            this.channels.Name = "channels";
-            this.channels.Size = new System.Drawing.Size(794, 4);
-            this.channels.TabIndex = 2;
+            this.channelsContainer.AutoSize = true;
+            this.channelsContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.channelsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.channelsContainer.Location = new System.Drawing.Point(3, 36);
+            this.channelsContainer.Name = "channelsContainer";
+            this.channelsContainer.Size = new System.Drawing.Size(794, 4);
+            this.channelsContainer.TabIndex = 2;
+            // 
+            // refreshButton
+            // 
+            this.refreshButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.refreshButton.Location = new System.Drawing.Point(130, 3);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(75, 21);
+            this.refreshButton.TabIndex = 2;
+            this.refreshButton.Text = "Refresh";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            // 
+            // fpsLabel
+            // 
+            this.fpsLabel.AutoSize = true;
+            this.fpsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fpsLabel.Location = new System.Drawing.Point(292, 0);
+            this.fpsLabel.Name = "fpsLabel";
+            this.fpsLabel.Size = new System.Drawing.Size(21, 27);
+            this.fpsLabel.TabIndex = 3;
+            this.fpsLabel.Text = "fps";
+            this.fpsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // YabrTool
             // 
@@ -111,6 +138,7 @@
             this.primaryLayout.ResumeLayout(false);
             this.primaryLayout.PerformLayout();
             this.toolbarLayout.ResumeLayout(false);
+            this.toolbarLayout.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -122,8 +150,9 @@
         private System.Windows.Forms.ComboBox comPortComboBox;
         private System.Windows.Forms.Panel canvasContainer;
         private System.Windows.Forms.Button connectButton;
-        private Channels channels;
-
+        private System.Windows.Forms.Panel channelsContainer;
+        private System.Windows.Forms.Button refreshButton;
+        private System.Windows.Forms.Label fpsLabel;
     }
 }
 

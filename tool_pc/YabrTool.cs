@@ -11,6 +11,7 @@ namespace YabrTool
         private Stopwatch watch = new Stopwatch();
         private Int32 frames = 0;
         private Serial serial;
+        private Channels channels;
         private Canvas canvas;
 
         public Serial Serial { get { return serial; } }
@@ -22,11 +23,15 @@ namespace YabrTool
             InitializeComponent();
 
             serial = new Serial(this);
+            channels = new Channels(this);
             canvas = new Canvas(this);
 
-            canvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            canvas.Dock = DockStyle.Fill;
             canvasContainer.Controls.Add(canvas); 
-            canvas.Paint += new System.Windows.Forms.PaintEventHandler(canvas_Paint);
+            canvas.Paint += new PaintEventHandler(canvas_Paint);
+
+            channels.Dock = DockStyle.Fill;
+            channelsContainer.Controls.Add(channels);
 
             RefreshPorts();
             watch.Start();
@@ -36,11 +41,17 @@ namespace YabrTool
         {
             comPortComboBox.Items.Clear();
 
-            List<String> ports = new List<String>(SerialPort.GetPortNames());
+            String[] pnames = SerialPort.GetPortNames();
+            List<String> ports = new List<String>(pnames);
             ports.Sort();
             foreach (String name in ports)
             {
-                comPortComboBox.Items.Add(name);
+                String fixedname = name;
+                if(name[name.Length - 1] < '0' || name[name.Length - 1] > '9')
+                {
+                    fixedname = name.Remove(name.Length - 1);
+                }
+                comPortComboBox.Items.Add(fixedname);
             }
 
             comPortComboBox.SelectedIndex = 0;
@@ -51,7 +62,7 @@ namespace YabrTool
             frames++;
             if (watch.ElapsedMilliseconds > 1000)
             {
-                connectButton.Text = String.Format("{0} fps", frames * 1000 / (Int32)watch.ElapsedMilliseconds);
+                fpsLabel.Text = String.Format("{0} fps", frames * 1000 / (Int32)watch.ElapsedMilliseconds);
                 watch.Reset();
                 watch.Start();
                 frames = 0;
@@ -68,6 +79,11 @@ namespace YabrTool
             {
                 Serial.Connect(comPortComboBox.SelectedItem.ToString());
             }
+        }
+
+        private void refreshButton_Click(object sender, EventArgs e)
+        {
+            RefreshPorts();
         }
     }
 }
