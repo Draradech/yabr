@@ -71,7 +71,7 @@ namespace YabrTool
     
             if(!decryptNext)
             {
-                if(port.BytesToRead > 0)
+                if(port.IsOpen && port.BytesToRead > 0)
                 {
                     rawByte = (Byte)port.ReadByte();
                     if(rawByte == '}')
