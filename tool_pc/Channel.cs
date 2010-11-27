@@ -1,10 +1,11 @@
 ﻿using System.Windows.Forms;
+using System.Drawing;
 
 namespace YabrTool
 {
     class Channel : UserControl
     {
-        private FlowLayoutPanel primaryLayout;
+        private TableLayoutPanel primaryLayout;
         private Label nameLabel;
         private Label valueLabel;
 
@@ -15,52 +16,42 @@ namespace YabrTool
     
         private void InitializeComponent()
         {
-            this.primaryLayout = new System.Windows.Forms.FlowLayoutPanel();
-            this.nameLabel = new System.Windows.Forms.Label();
-            this.valueLabel = new System.Windows.Forms.Label();
-            this.primaryLayout.SuspendLayout();
-            this.SuspendLayout();
+            primaryLayout = new TableLayoutPanel();
+            nameLabel = new Label();
+            valueLabel = new Label();
+
             // 
             // primaryLayout
             // 
-            this.primaryLayout.AutoSize = true;
-            this.primaryLayout.Controls.Add(this.nameLabel);
-            this.primaryLayout.Controls.Add(this.valueLabel);
-            this.primaryLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.primaryLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.primaryLayout.Location = new System.Drawing.Point(0, 0);
-            this.primaryLayout.Name = "primaryLayout";
-            this.primaryLayout.Size = new System.Drawing.Size(150, 150);
-            this.primaryLayout.TabIndex = 0;
+            primaryLayout.Dock = DockStyle.Fill;
+            primaryLayout.AutoSize = true;
+            primaryLayout.RowCount = 2;
+            primaryLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            primaryLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            primaryLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            primaryLayout.Controls.Add(nameLabel, 0, 0);
+            primaryLayout.Controls.Add(valueLabel, 0, 1);
+
             // 
             // nameLabel
             // 
-            this.nameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameLabel.Location = new System.Drawing.Point(3, 0);
-            this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(100, 23);
-            this.nameLabel.TabIndex = 0;
-            this.nameLabel.Text = "name";
+            nameLabel.Dock = DockStyle.Fill;
+            nameLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            nameLabel.Text = "name";
+
             // 
             // valueLabel
             // 
-            this.valueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueLabel.Location = new System.Drawing.Point(3, 23);
-            this.valueLabel.Name = "valueLabel";
-            this.valueLabel.Size = new System.Drawing.Size(100, 23);
-            this.valueLabel.TabIndex = 1;
-            this.valueLabel.Text = "value";
+            valueLabel.Dock = DockStyle.Fill;
+            valueLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            valueLabel.Text = "value";
+
             // 
             // Channel
             // 
-            this.AutoSize = true;
-            this.Controls.Add(this.primaryLayout);
-            this.Name = "Channel";
-            this.primaryLayout.ResumeLayout(false);
-            this.primaryLayout.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            Dock = DockStyle.Fill;
+            AutoSize = true;
+            Controls.Add(primaryLayout);
         }
     }
 }

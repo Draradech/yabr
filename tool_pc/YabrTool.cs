@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace YabrTool
 {
     public partial class YabrTool : Form
     {
-        private Stopwatch watch = new Stopwatch();
-        private Int32 frames = 0;
-        private Serial serial;
+        private TableLayoutPanel primaryLayout;
+        private FlowLayoutPanel toolbarLayout;
+        private ComboBox comPortComboBox;
+        private Button connectButton;
+        private Button refreshButton;
+        private Label fpsLabel;
+
         private Channels channels;
         private Canvas canvas;
+        private Serial serial;
+        private Stopwatch watch = new Stopwatch();
+        private Int32 frames = 0;
 
         public Serial Serial { get { return serial; } }
         public Channels Channels { get { return channels; } }
@@ -23,15 +31,6 @@ namespace YabrTool
             InitializeComponent();
 
             serial = new Serial(this);
-            channels = new Channels(this);
-            canvas = new Canvas(this);
-
-            canvas.Dock = DockStyle.Fill;
-            canvasContainer.Controls.Add(canvas); 
-            canvas.Paint += new PaintEventHandler(canvas_Paint);
-
-            channels.Dock = DockStyle.Fill;
-            channelsContainer.Controls.Add(channels);
 
             RefreshPorts();
             watch.Start();
@@ -44,6 +43,8 @@ namespace YabrTool
             String[] pnames = SerialPort.GetPortNames();
             List<String> ports = new List<String>(pnames);
             ports.Sort();
+
+            // fix stupid M$ bug - ugly hack
             foreach (String name in ports)
             {
                 String fixedname = name;
@@ -54,10 +55,13 @@ namespace YabrTool
                 comPortComboBox.Items.Add(fixedname);
             }
 
-            comPortComboBox.SelectedIndex = 0;
+            if (comPortComboBox.Items.Count > 0)
+            {
+                comPortComboBox.SelectedIndex = 0;
+            }
         }
 
-        private void canvas_Paint(object sender, PaintEventArgs e)
+        private void onCanvasPaint(object sender, PaintEventArgs e)
         {
             frames++;
             if (watch.ElapsedMilliseconds > 1000)
@@ -69,7 +73,7 @@ namespace YabrTool
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void onConnectButtonClick(object sender, EventArgs e)
         {
             if (Serial.IsConnected)
             {
@@ -77,13 +81,101 @@ namespace YabrTool
             }
             else
             {
-                Serial.Connect(comPortComboBox.SelectedItem.ToString());
+                if (comPortComboBox.SelectedItem != null)
+                {
+                    Serial.Connect(comPortComboBox.SelectedItem.ToString());
+                }
             }
         }
 
-        private void refreshButton_Click(object sender, EventArgs e)
+        private void onRefreshButtonClick(object sender, EventArgs e)
         {
             RefreshPorts();
+        }
+
+        private void InitializeComponent()
+        {
+            primaryLayout = new TableLayoutPanel();
+            toolbarLayout = new FlowLayoutPanel();
+            comPortComboBox = new ComboBox();
+            connectButton = new Button();
+            canvas = new Canvas(this);
+            channels = new Channels(this);
+            refreshButton = new Button();
+            fpsLabel = new Label();
+
+            // 
+            // primaryLayout
+            // 
+            primaryLayout.Dock = DockStyle.Fill;
+            primaryLayout.ColumnCount = 1;
+            primaryLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            primaryLayout.RowCount = 3;
+            primaryLayout.RowStyles.Add(new RowStyle());
+            primaryLayout.RowStyles.Add(new RowStyle());
+            primaryLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            primaryLayout.Controls.Add(toolbarLayout, 0, 0);
+            primaryLayout.Controls.Add(canvas, 0, 2);
+            primaryLayout.Controls.Add(channels, 0, 1);
+
+            // 
+            // toolbarLayout
+            // 
+            toolbarLayout.Dock = DockStyle.Fill;
+            toolbarLayout.AutoSize = true;
+            toolbarLayout.Controls.Add(comPortComboBox);
+            toolbarLayout.Controls.Add(refreshButton);
+            toolbarLayout.Controls.Add(connectButton);
+            toolbarLayout.Controls.Add(fpsLabel);
+
+            // 
+            // comPortComboBox
+            // 
+            comPortComboBox.Dock = DockStyle.Fill;
+            comPortComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            // 
+            // connectButton
+            // 
+            connectButton.Dock = DockStyle.Fill;
+            connectButton.Text = "Connect";
+            connectButton.Click += new EventHandler(onConnectButtonClick);
+
+            // 
+            // canvas
+            // 
+            canvas.Dock = DockStyle.Fill;
+            canvas.BorderStyle = BorderStyle.Fixed3D;
+            canvas.Paint += new PaintEventHandler(onCanvasPaint);
+
+            // 
+            // channels
+            // 
+            channels.Dock = DockStyle.Fill;
+            channels.AutoSize = true;
+
+            // 
+            // refreshButton
+            // 
+            connectButton.Dock = DockStyle.Fill;
+            refreshButton.Text = "Refresh";
+            refreshButton.Click += new System.EventHandler(onRefreshButtonClick);
+
+            // 
+            // fpsLabel
+            // 
+            fpsLabel.Dock = DockStyle.Fill;
+            fpsLabel.AutoSize = true;
+            fpsLabel.TextAlign = ContentAlignment.MiddleLeft;
+            fpsLabel.Text = "fps";
+
+            // 
+            // YabrTool
+            // 
+            Dock = DockStyle.Fill; 
+            ClientSize = new Size(800, 600);
+            Controls.Add(primaryLayout);
+            Text = "YabrTool";
         }
     }
 }

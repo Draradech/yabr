@@ -64,17 +64,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="YabrTool.Designer.cs">
-      <DependentUpon>YabrTool.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="YabrTool.resx">
-      <DependentUpon>YabrTool.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
