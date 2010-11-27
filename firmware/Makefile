@@ -83,6 +83,7 @@ MSG_COMPILING_LINKING = Compiling and Linking:
 MSG_CLEANING = Cleaning project:
 MSG_PROGRAM_FLASH = Programming target flash:
 MSG_PROGRAM_EEPROM = Programming target eeprom:
+MSG_NOTHING = \n
 
 # Default target.
 all: build size
@@ -99,14 +100,16 @@ lss: $(TARGET).lss
 ELFSIZE = $(SIZE) --format=avr --mcu=$(MCU) $(TARGET).elf
 
 size:
-	@if test -f $(TARGET).elf; then echo; echo; $(ELFSIZE); \
-	2>/dev/null; echo; fi
+	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_NOTHING)"
+	$(ELFSIZE)
+	@printf "$(MSG_NOTHING)"
 
 
 # Program the device  
 program: $(TARGET).hex
-	@echo
-	@echo $(MSG_PROGRAM_FLASH)
+	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_PROGRAM_FLASH)"
 	launcher.cs -p $(AVRDUDE_PORT)
 	sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
@@ -116,8 +119,8 @@ program: $(TARGET).hex
 
 # Program the eeprom
 program_eeprom: $(TARGET).eep
-	@echo
-	@echo $(MSG_PROGRAM_EEPROM)
+	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_PROGRAM_EEPROM)"
 	launcher.cs -p $(AVRDUDE_PORT)
 	sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_EEPROM)
@@ -127,28 +130,28 @@ program_eeprom: $(TARGET).eep
 
 # Create final output files (.hex, .eep) from ELF output file.
 %.hex: %.elf
-	@echo
-	@echo $(MSG_FLASH) $@
+	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_FLASH) $@"
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
 
 %.eep: %.elf
-	@echo
-	@echo $(MSG_EEPROM) $@
+	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_EEPROM) $@"
 	-$(OBJCOPY) -j .eeprom --set-section-flags .eeprom=alloc,load \
 	--change-section-lma .eeprom=0 -O ihex $< $@
 
 
 # Create extended listing file from ELF output file.
 %.lss: %.elf
-	@echo
-	@echo $(MSG_EXTENDED_LISTING) $@
+	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_EXTENDED_LISTING) $@"
 	$(OBJDUMP) -h -S $< > $@
 
 
 # Link: create ELF output file from object files.
 %.elf: $(SRC)
-	@echo
-	@echo $(MSG_COMPILING_LINKING) $@
+	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_COMPILING_LINKING) $@"
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ --output $@
 
 
@@ -156,8 +159,8 @@ program_eeprom: $(TARGET).eep
 clean: begin clean_list end
 
 clean_list :
-	@echo
-	@echo $(MSG_CLEANING)
+	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_CLEANING)"
 	$(REMOVE) $(TARGET).elf
 	$(REMOVE) $(TARGET).hex
 	$(REMOVE) $(TARGET).eep
