@@ -58,7 +58,6 @@ namespace YabrTool
             GL.End();
 
             SwapBuffers();
-            Invalidate();
         }
 
         protected override void OnResize(System.EventArgs e)
@@ -77,6 +76,7 @@ namespace YabrTool
         protected override void OnLoad(System.EventArgs e)
         {
             base.OnLoad(e);
+
             GL.Disable(EnableCap.DepthTest);
             GL.ClearColor(Color.Black);
             OnResize(null);

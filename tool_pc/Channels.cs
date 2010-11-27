@@ -26,6 +26,7 @@ namespace YabrTool
                 Console.WriteLine(String.Format("{0}", measurement[i]));
             }
             Console.WriteLine();
+            yabrTool.Canvas.Invalidate();
         }
 
         private void InitializeComponent()
