@@ -83,7 +83,7 @@ MSG_COMPILING_LINKING = Compiling and Linking:
 MSG_CLEANING = Cleaning project:
 MSG_PROGRAM_FLASH = Programming target flash:
 MSG_PROGRAM_EEPROM = Programming target eeprom:
-MSG_NOTHING = \n
+MSG_NEWLINE = \n
 
 # Default target.
 all: build size
@@ -100,16 +100,16 @@ lss: $(TARGET).lss
 ELFSIZE = $(SIZE) --format=avr --mcu=$(MCU) $(TARGET).elf
 
 size:
-	@printf "$(MSG_NOTHING)"
-	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_NEWLINE)"
+	@printf "$(MSG_NEWLINE)"
 	$(ELFSIZE)
-	@printf "$(MSG_NOTHING)"
 
 
 # Program the device  
 program: $(TARGET).hex
-	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_PROGRAM_FLASH)"
+	@printf "$(MSG_NEWLINE)"
 	launcher.cs -p $(AVRDUDE_PORT)
 	sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
@@ -119,8 +119,9 @@ program: $(TARGET).hex
 
 # Program the eeprom
 program_eeprom: $(TARGET).eep
-	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_PROGRAM_EEPROM)"
+	@printf "$(MSG_NEWLINE)"
 	launcher.cs -p $(AVRDUDE_PORT)
 	sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_EEPROM)
@@ -130,28 +131,31 @@ program_eeprom: $(TARGET).eep
 
 # Create final output files (.hex, .eep) from ELF output file.
 %.hex: %.elf
-	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_FLASH) $@"
+	@printf "$(MSG_NEWLINE)"
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
 
 %.eep: %.elf
-	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_EEPROM) $@"
+	@printf "$(MSG_NEWLINE)"
 	-$(OBJCOPY) -j .eeprom --set-section-flags .eeprom=alloc,load \
 	--change-section-lma .eeprom=0 -O ihex $< $@
 
 
 # Create extended listing file from ELF output file.
 %.lss: %.elf
-	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_EXTENDED_LISTING) $@"
 	$(OBJDUMP) -h -S $< > $@
 
 
 # Link: create ELF output file from object files.
 %.elf: $(SRC)
-	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_COMPILING_LINKING) $@"
+	@printf "$(MSG_NEWLINE)"
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ --output $@
 
 
@@ -159,8 +163,9 @@ program_eeprom: $(TARGET).eep
 clean: begin clean_list end
 
 clean_list :
-	@printf "$(MSG_NOTHING)"
+	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_CLEANING)"
+	@printf "$(MSG_NEWLINE)"
 	$(REMOVE) $(TARGET).elf
 	$(REMOVE) $(TARGET).hex
 	$(REMOVE) $(TARGET).eep
