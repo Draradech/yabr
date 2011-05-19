@@ -6,10 +6,12 @@ static void readAdc(void)
 {
 	static uint8_t sonarTimer;
 	
+	cli();
 	rawSensorData.battery = battery;
 	rawSensorData.sonar1 = sonar1;
 	rawSensorData.sonar2 = sonar2;
-
+	sei();
+	
 	ADCSRA |= (1 << ADSC);
 	
     PORTC &= ~(1 << PC4);
