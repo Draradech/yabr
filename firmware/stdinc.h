@@ -37,6 +37,9 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+#define force_inline        __attribute((always_inline))
+#define noreturn            __attribute((noreturn))
+
 #define HIGH(x)             ((uint8_t)((x) >> 8))
 #define LOW(x)              ((uint8_t)(x))
 
@@ -45,7 +48,7 @@
 
 #define MS_TO_LOOP(ms)		((ms) / LOOP_TIME_MS)
 
-#define LIMIT(x, min, max)  (((x) < (min)) ? (min) : (((x) < (max)) ? (x) : (max)))
+#define LIMIT(x, min, max)  (MIN(MAX((x), (min)), (max)))
 
 #define PT1(new_val, old_val, time_constant_ms) \
     ((old_val) + ((new_val) - (old_val)) / MS_TO_LOOP(time_constant_ms))

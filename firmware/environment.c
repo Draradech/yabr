@@ -30,7 +30,7 @@ void output(void)
     sendData(LOW(rawSensorData.sonar1));
     sendData(HIGH(rawSensorData.sonar2));
     sendData(LOW(rawSensorData.sonar2));
-	sendData(0);
-	sendData(lastLoopTicks);
+    sendData(0);
+    sendData(lastLoopTicks);
     sendPacketEnd();
 }

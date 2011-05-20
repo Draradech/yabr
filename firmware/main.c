@@ -3,7 +3,7 @@
 static volatile bool loopActive;
 static volatile uint8_t ticksSinceLoopStart;
 
-void __attribute__((noreturn)) main(void)
+void noreturn main(void)
 {
     init();
     
@@ -14,7 +14,7 @@ void __attribute__((noreturn)) main(void)
             ; // wait for next loop
         }
 		
-		readSensors();
+	     readSensors();
         
         input();
 

@@ -33,19 +33,19 @@ static volatile SCircularBuffer recvBuffer;
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-static inline uint8_t length(volatile SCircularBuffer *buf)
+static force_inline uint8_t length(volatile SCircularBuffer *buf)
 {
     return (uint8_t)((buf->indexIn % SERIALBUFFER) - (buf->indexOut % SERIALBUFFER) + SERIALBUFFER) % SERIALBUFFER;
 }
 
-static inline uint8_t deque(volatile SCircularBuffer *buf)
+static force_inline uint8_t deque(volatile SCircularBuffer *buf)
 {
     uint8_t val = buf->buffer[buf->indexOut];
     buf->indexOut = (uint8_t)(buf->indexOut + 1) % SERIALBUFFER;
     return val;
 }
 
-static inline void enque(volatile SCircularBuffer *buf, uint8_t val)
+static force_inline void enque(volatile SCircularBuffer *buf, uint8_t val)
 {
     buf->buffer[buf->indexIn] = val;
     buf->indexIn = (uint8_t)(buf->indexIn + 1) % SERIALBUFFER;
@@ -190,7 +190,7 @@ void sendData(uint8_t byte)
        || (byte == '{')    // packet begin
        || (byte == '}')    // packet end
        || (byte == '\0')   // shouldn't be a problem, but who knows...
-       || (byte == '$')    // do not enter bt command mode accidentally
+       || (byte == '$')    // do not enter bluetooth command mode accidentally
        )
     {
         sendRaw('|');
