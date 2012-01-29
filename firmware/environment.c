@@ -1,5 +1,9 @@
 #include "stdinc.h"
 
+#define CHANNELS 5
+
+static char channel[CHANNELS] = {'0', '0', '0', '0', '0'};
+
 void input(void)
 {
    uint8_t command;
@@ -17,22 +21,28 @@ void input(void)
             for(;;);
             break;
          }
+         case 'c':
+         {
+            channel[data[0]] = data[1];
+            break;
+         }
       }
    }
 }
 
+
+#define ENTRY(ID, var, rightshift, resolution, unit, name, minvalue, maxvalue)\
+case ID: sendData16(var >> rightshift); break;
+
 void output(void)
 {
    sendPacketBegin('t');
-   sendData(HIGH(rawSensorData.battery));
-   sendData(LOW(rawSensorData.battery));
-   sendData(HIGH(rawSensorData.sonar1));
-   sendData(LOW(rawSensorData.sonar1));
-   sendData(HIGH(rawSensorData.sonar2));
-   sendData(LOW(rawSensorData.sonar2));
-   sendData(0);
-   sendData(lastLoopTicks);
-   sendData(0);
-   sendData(lastLoopTicks);
+   for(uint8_t c = 0; c < CHANNELS; c++)
+   {
+      switch(channel[c])
+      {
+         #include "../mtable.inc"
+      }
+   }
    sendPacketEnd();
 }

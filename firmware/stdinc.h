@@ -66,6 +66,7 @@ void init(void);
 bool recvPacket(uint8_t *command, uint8_t *size, uint8_t **data);
 void sendPacketBegin(uint8_t command);
 void sendData(uint8_t byte);
+void sendData16(uint16_t word);
 void sendPacketEnd(void);
 
 void input(void);

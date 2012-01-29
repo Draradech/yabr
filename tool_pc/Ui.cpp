@@ -92,7 +92,7 @@ void CUi::keyDown(char key)
 				}
 				case 'r':
 				{
-					sendPacketBegin('i');
+					sendPacketBegin('r');
 					sendPacketEnd();
 					// todo: resend current channel config
 					break;

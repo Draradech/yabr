@@ -199,6 +199,12 @@ void sendData(uint8_t byte)
    sendRaw(byte);
 }
 
+void sendData16(uint16_t word)
+{
+   sendData(HIGH(word));
+   sendData(LOW(word));
+}
+
 bool recvPacket(uint8_t *command, uint8_t *size, uint8_t **dataout)
 {
    static uint8_t data[DATABUFFER];

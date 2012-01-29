@@ -140,6 +140,7 @@ program_eeprom: $(TARGET).eep
 %.lss: %.elf
 	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_EXTENDED_LISTING) $@"
+	@printf "$(MSG_NEWLINE)"
 	$(OBJDUMP) -h -S $< > $@
 
 
