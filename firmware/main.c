@@ -14,7 +14,7 @@ void noreturn main(void)
             ; // wait for next loop
         }
 		
-	     readSensors();
+        readSensors();
         
         input();
 

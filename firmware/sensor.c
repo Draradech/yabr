@@ -6,11 +6,12 @@ static void readAdc(void)
 {
 	static uint8_t sonarTimer;
 	
-	cli();
-	rawSensorData.battery = battery;
-	rawSensorData.sonar1 = sonar1;
-	rawSensorData.sonar2 = sonar2;
-	sei();
+	ATOMIC_BLOCK(ATOMIC_FORCEON)
+	{
+		rawSensorData.battery = battery;
+		rawSensorData.sonar1 = sonar1;
+		rawSensorData.sonar2 = sonar2;
+	}
 	
 	ADCSRA |= (1 << ADSC);
 	
@@ -34,7 +35,7 @@ void readSensors(void)
 	readAdc();
 }
 
-static inline uint8_t currentAdc(uint8_t admux) { return admux & 0x0f; }
+static force_inline uint8_t currentAdc(uint8_t admux) { return admux & 0x0f; }
 
 ISR(ADC_vect)
 {

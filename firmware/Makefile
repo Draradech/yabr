@@ -55,7 +55,7 @@ LDFLAGS += -lm
 AVRDUDE_PROGRAMMER = avr109
 
 # Programming port
-AVRDUDE_PORT = COM3
+AVRDUDE_PORT = /dev/rfcomm0
 
 # Programming command
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
@@ -110,11 +110,7 @@ program: $(TARGET).hex
 	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_PROGRAM_FLASH)"
 	@printf "$(MSG_NEWLINE)"
-	launcher.cs -p $(AVRDUDE_PORT)
-	sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
-	sleep 1
-	launcher.cs -p $(AVRDUDE_PORT) -d
 
 
 # Program the eeprom
@@ -122,11 +118,7 @@ program_eeprom: $(TARGET).eep
 	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_PROGRAM_EEPROM)"
 	@printf "$(MSG_NEWLINE)"
-	launcher.cs -p $(AVRDUDE_PORT)
-	sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_EEPROM)
-	sleep 1
-	launcher.cs -p $(AVRDUDE_PORT) -d
 
 
 # Create final output files (.hex, .eep) from ELF output file.
