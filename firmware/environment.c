@@ -3,6 +3,10 @@
 #define CHANNELS 5
 
 static char channel[CHANNELS] = {'0', '0', '0', '0', '0'};
+static char pchannel = '0';
+
+#define ENTRY(ID, var, rightshift, resolution, unit, name, minvalue, maxvalue)\
+case ID: var += (int8_t)data[0]; break;
 
 void input(void)
 {
@@ -26,6 +30,18 @@ void input(void)
             channel[data[0]] = data[1];
             break;
          }
+         case 'p':
+         {
+            pchannel = data[0];
+            break;
+         }
+         case 'i':
+         {
+            switch(pchannel)
+            {
+               #include "../ptable.inc"
+            }
+         }
       }
    }
 }
@@ -42,7 +58,13 @@ void output(void)
       switch(channel[c])
       {
          #include "../mtable.inc"
+         default: sendData16(-1); break;
       }
+   }
+   switch(pchannel)
+   {
+      #include "../ptable.inc"
+      default: sendData16(-1); break;
    }
    sendPacketEnd();
 }

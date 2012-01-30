@@ -80,13 +80,8 @@ int main(int argc, char** argv)
     
    glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 
-   #ifdef linux
-   glutInitWindowSize(1200, 900);
-   glutCreateWindow("yabr measurement tool");
-   #else
    glutCreateWindow("yabr measurement tool");
    glutFullScreen();
-   #endif
 
     glutIgnoreKeyRepeat(true);
 

@@ -1,6 +1,10 @@
 #include "stdinc.h"
 
 static volatile uint16_t battery, sonar1, sonar2;
+static volatile int16_t wss1, wss2;
+
+static int8_t steps1[4][4] = {{0, 1, -1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, -1, 1, 0}};
+static int8_t steps2[4][4] = {{0, -1, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 1, -1, 0}};
 
 static void readAdc(void)
 {
@@ -30,9 +34,65 @@ static void readAdc(void)
    }
 }
 
+static void readWss(void)
+{
+   ATOMIC_BLOCK(ATOMIC_FORCEON)
+   {
+      rawSensorData.wss1 = wss1;
+      wss1 = 0;
+      rawSensorData.wss2 = wss2;
+      wss2 = 0;
+   }
+   speed1 = PT1(rawSensorData.wss1 * 64, speed1, 16);
+   speed2 = PT1(rawSensorData.wss2 * 64, speed2, 16);
+   
+   pos1 += rawSensorData.wss1;
+   pos2 += rawSensorData.wss2;
+   
+   if(speed1 > 640)
+   {
+      PCMSK1 = (1 << PCINT8);
+      steps1[1][2] = 1;
+      steps1[2][1] = 1;
+   }
+   else if(speed1 < -640)
+   {
+      PCMSK1 = (1 << PCINT9);
+      steps1[1][2] = -1;
+      steps1[2][1] = -1;
+   }
+   else
+   {
+      PCMSK1 = (1 << PCINT8) | (1 << PCINT9);
+      steps1[1][2] = 0;
+      steps1[2][1] = 0;
+   }
+   
+   if(speed2 > 640)
+   {
+      PCMSK2 = (1 << PCINT17);
+      steps2[1][2] = 1;
+      steps2[2][1] = 1;
+   }
+   else if(speed2 < -640)
+   {
+      PCMSK2 = (1 << PCINT16);
+      steps2[1][2] = -1;
+      steps2[2][1] = -1;
+   }
+   else
+   {
+      PCMSK2 = (1 << PCINT16) | (1 << PCINT17);
+      steps2[1][2] = 0;
+      steps2[2][1] = 0;
+   }
+   
+}
+
 void readSensors(void)
 {
    readAdc();
+   readWss();
 }
 
 static force_inline uint8_t currentAdc(uint8_t admux) { return admux & 0x0f; }
@@ -60,10 +120,18 @@ ISR(ADC_vect)
    }
 }
 
+static uint8_t pbll;
 ISR(PCINT1_vect)
 {
+   uint8_t pb = PINB & 0x03;
+   wss1 += steps1[pbll][pb];
+   pbll = pb;
 }
 
+static uint8_t pcll;
 ISR(PCINT2_vect)
 {
+   uint8_t pc = PINC & 0x03;
+   wss2 += steps2[pcll][pc];
+   pcll = pc;
 }

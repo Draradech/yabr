@@ -74,4 +74,6 @@ void output(void);
 
 void readSensors(void);
 
+void actuate(void);
+
 #endif // _STDINC_H_

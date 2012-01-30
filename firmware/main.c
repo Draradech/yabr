@@ -15,15 +15,15 @@ void noreturn main(void)
       }
       
       readSensors();
-      
       input();
-
       output();
+      actuate();
       
-      cli();
-      lastLoopTicks = ticksSinceLoopStart;
-      loopActive = false;
-      sei();
+      ATOMIC_BLOCK(ATOMIC_FORCEON)
+      {
+         lastLoopTicks = ticksSinceLoopStart;
+         loopActive = false;
+      }
    }
 }
 

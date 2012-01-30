@@ -19,10 +19,8 @@ void init(void)
    // PA7
 
    // PB0 - M1 LSA
-   // pullup ?
 
    // PB1 - M1 LSB
-   // pullup ?
 
    // PB2 - M1 A
    DDRB |= (1 << PB2);
@@ -42,10 +40,8 @@ void init(void)
    DDRB |= (1 << PB7);
 
    // PC0 - M2 LSA
-   // pullup ?
 
    // PC1 - M2 LSB
-   // pullup ?
 
    // PC2 - M2 A
    DDRC |= (1 << PC2);
@@ -97,10 +93,10 @@ void init(void)
    // PCINT
    PCICR  = (1 << PCIE1)
           | (1 << PCIE2);      // pin change interrupts for ports B and C
-   PCMSK2 = (1 << PCINT16)     // pin change interrupt for PC0
-          | (1 << PCINT17);    // pin change interrupt for PC1
    PCMSK1 = (1 << PCINT8)      // pin change interrupt for PB0
           | (1 << PCINT9);     // pin change interrupt for PB1
+   PCMSK2 = (1 << PCINT16)     // pin change interrupt for PC0
+          | (1 << PCINT17);    // pin change interrupt for PC1
 
    // SPI
    SPCR = (1 << SPE)           // SPI enable

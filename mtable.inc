@@ -5,6 +5,14 @@
     ENTRY('1', rawSensorData.sonar1,     0,       1.0,           "",      "Raw Sonar 1",                         0.0,       200.0      )
     ENTRY('2', rawSensorData.sonar2,     0,       1.0,           "",      "Raw Sonar 2",                         0.0,       200.0      )
     ENTRY('3', lastLoopTicks,            0,       1.0,           "%",     "Prozessorauslastung",                 0.0,       100.0      )
+    ENTRY('4', rawSensorData.wss1,       0,       1.0,           "",      "Raw WSS 1",                           -100.0,    100.0      )
+    ENTRY('5', rawSensorData.wss2,       0,       1.0,           "",      "Raw WSS 2",                           -100.0,    100.0      )
+	
+    ENTRY('6', speed1,                   0,       0.015625,         "",      "Speed 1",                           -100.0,    100.0      )
+    ENTRY('7', speed2,                   0,       0.015625,         "",      "Speed 2",                           -100.0,    100.0      )
+
+    ENTRY('8', pos1,                   0,       1,         "",      "Pos 1",                           -1000.0,    1000.0      )
+    ENTRY('9', pos2,                   0,       1,         "",      "Pos 2",                           -1000.0,    1000.0      )
 	
 //  ENTRY('0', attitude.longAcc,         0,       0.001,         "m/ss",  "Längsbeschleunigung",                 -25.0,      25.0      )
 //  ENTRY('1', attitude.latAcc,          0,       0.001,         "m/ss",  "Querbeschleunigung",                  -25.0,      25.0      )
@@ -37,4 +45,4 @@
 
 //  ENTRY('m', rawSensorData.voltage,    0,       0.06161719,    "V",     "Raw Batteriespannung",                0.0,        15.0      )
 
-    ENTRY(0,   0,                        0,       0.0,           "-",     "Ende der Tabelle",                    0.0,        0.0       )
+    ENTRY(0,   lastLoopTicks,            0,       0.0,           "-",     "Ende der Tabelle",                    0.0,        0.0       )
