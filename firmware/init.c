@@ -71,9 +71,9 @@ void init(void)
 
    // PD3
 
-   // PD4 - OC1B - Speaker (enabled by soundplayer when needed)
+   // PD4
 
-   // PD5
+   // PD5 - OC1A - Speaker (enabled by soundplayer when needed)
 
    // PD6 - OC2B - M1 PWM
    DDRD |= (1 << PD6);
@@ -124,6 +124,16 @@ void init(void)
           | (1 << WGM20);      // non-inverting phase-correct PWM mode
 
    TCCR2B = (1 << CS21);       // Prescalar 8 -> 4902 Hz PWM
+
+   // Ram Vars
+   attitude.voltage =  14800;          // initialize battery voltage to lipo nominal
+   actuator.initCountdown = 48;
+   actuator.tempDisabled = true;
+   
+   sensorOffsets.angleRate = -1024;    // initialize gyro offset (self learning)
+   sensorOffsets.longAcc = 180;
+   sensorOffsets.latAcc = 70;
+   sensorOffsets.vertAcc = -95;
 
    // Enable Interrupts
    sei();

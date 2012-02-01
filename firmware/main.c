@@ -14,10 +14,12 @@ void noreturn main(void)
          ; // wait for next loop
       }
       
+      soundMain();
       readSensors();
+      attitudeCalculation();
+      actuate();
       input();
       output();
-      actuate();
       
       ATOMIC_BLOCK(ATOMIC_FORCEON)
       {

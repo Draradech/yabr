@@ -76,4 +76,10 @@ void readSensors(void);
 
 void actuate(void);
 
+void attitudeCalculation(void);
+
+int16_t atan2_cordic(int16_t y, int16_t x);
+void soundMain(void);
+void setSound(uint8_t num);
+
 #endif // _STDINC_H_

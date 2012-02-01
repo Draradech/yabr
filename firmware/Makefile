@@ -11,7 +11,7 @@ TARGET = yabr
 
 
 # C source files
-SRC = actuator.c environment.c init.c main.c ram.c sensor.c serial.c
+SRC = actuator.c attitude.c environment.c init.c main.c math.c notes.c ram.c sensor.c serial.c sound.c sounds.c
 
 
 # Optimization level
