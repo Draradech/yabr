@@ -72,8 +72,6 @@ int main(int argc, char** argv)
         return -1;
    }
 
-   sendByte('X');
-
    pTool = new CTool();
 
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);

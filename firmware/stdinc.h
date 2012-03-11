@@ -82,4 +82,6 @@ int16_t atan2_cordic(int16_t y, int16_t x);
 void soundMain(void);
 void setSound(uint8_t num);
 
+void controlAlgo(void);
+
 #endif // _STDINC_H_

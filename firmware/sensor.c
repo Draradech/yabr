@@ -9,84 +9,84 @@ static int8_t stepsLeft[4][4] = {{0, -1, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 
 
 static uint8_t spiSendRecv(uint8_t byte)
 {
-    SPDR = byte;
-    while(!(SPSR & (1 << SPIF)));
-    return SPDR;
+   SPDR = byte;
+   while(!(SPSR & (1 << SPIF)));
+   return SPDR;
 }
 
 #define GyroRefusal           (highbyte & (1 << 7))
 #define GyroEndOfConversion   (highbyte & (1 << 5))
 static void readGyro(void)
 {
-    uint8_t highbyte;
-    uint8_t lowbyte;
+   uint8_t highbyte;
+   uint8_t lowbyte;
 
-    PORTC &= ~(1 << PC6); // select Gyro
+   PORTC &= ~(1 << PC6); // select Gyro
 
-    spiSendRecv(0x94);
-    highbyte = spiSendRecv(0);
-    lowbyte = spiSendRecv(0);
+   spiSendRecv(0x94);
+   highbyte = spiSendRecv(0);
+   lowbyte = spiSendRecv(0);
 
-    if(!GyroRefusal)
-    {
-        do
-        {
-            spiSendRecv(0x80);
-            highbyte = spiSendRecv(0);
-            lowbyte = spiSendRecv(0);
-        } while (!GyroRefusal && !GyroEndOfConversion);
+   if(!GyroRefusal)
+   {
+      do
+      {
+         spiSendRecv(0x80);
+         highbyte = spiSendRecv(0);
+         lowbyte = spiSendRecv(0);
+      } while (!GyroRefusal && !GyroEndOfConversion);
 
-        if(!GyroRefusal && GyroEndOfConversion)
-        {
-            rawSensorData.angleRate = -(((((highbyte & 0x0f) << 8) | lowbyte) >> 1) + sensorOffsets.angleRate);
-        }
-    }
+      if(!GyroRefusal && GyroEndOfConversion)
+      {
+         rawSensorData.angleRate = -(((((highbyte & 0x0f) << 8) | lowbyte) >> 1) + sensorOffsets.angleRate);
+      }
+   }
 
-    PORTC |= (1 << PC6); // unselect Gyro
+   PORTC |= (1 << PC6); // unselect Gyro
 }
 
 static void readAcc(void)
 {
-    uint8_t highbyte;
-    uint8_t lowbyte;
+   uint8_t highbyte;
+   uint8_t lowbyte;
 
-    PORTC &= ~(1 << PC7); // select Acc
+   PORTC &= ~(1 << PC7); // select Acc
 
-    spiSendRecv(0x24);
-    highbyte = spiSendRecv(0);
-    lowbyte = spiSendRecv(0);
+   spiSendRecv(0x24);
+   highbyte = spiSendRecv(0);
+   lowbyte = spiSendRecv(0);
 
-    rawSensorData.latAcc = ((int16_t)(((uint16_t)highbyte) << 8) | lowbyte) >> 3;
-    rawSensorData.latAcc += sensorOffsets.latAcc;
+   rawSensorData.latAcc = ((int16_t)(((uint16_t)highbyte) << 8) | lowbyte) >> 3;
+   rawSensorData.latAcc += sensorOffsets.latAcc;
 
-    highbyte = spiSendRecv(0);
-    lowbyte = spiSendRecv(0);
+   highbyte = spiSendRecv(0);
+   lowbyte = spiSendRecv(0);
 
-    rawSensorData.vertAcc = ((int16_t)(((uint16_t)highbyte) << 8) | lowbyte) >> 3;
-    rawSensorData.vertAcc += sensorOffsets.vertAcc;
+   rawSensorData.vertAcc = ((int16_t)(((uint16_t)highbyte) << 8) | lowbyte) >> 3;
+   rawSensorData.vertAcc += sensorOffsets.vertAcc;
 
-    highbyte = spiSendRecv(0);
-    lowbyte = spiSendRecv(0);
+   highbyte = spiSendRecv(0);
+   lowbyte = spiSendRecv(0);
 
-    rawSensorData.longAcc = -(((int16_t)(((uint16_t)highbyte) << 8) | lowbyte) >> 3);
-    rawSensorData.longAcc += sensorOffsets.longAcc;
+   rawSensorData.longAcc = -(((int16_t)(((uint16_t)highbyte) << 8) | lowbyte) >> 3);
+   rawSensorData.longAcc += sensorOffsets.longAcc;
 
-    PORTC |= (1 << PC7); // unselect Acc
+   PORTC |= (1 << PC7); // unselect Acc
 }
 
 static void readAdc(void)
 {
    static uint8_t sonarTimer;
-   
+
    ATOMIC_BLOCK(ATOMIC_FORCEON)
    {
       rawSensorData.voltage = voltage;
       rawSensorData.sonar1 = sonar1;
       rawSensorData.sonar2 = sonar2;
    }
-   
+
    ADCSRA |= (1 << ADSC);
-   
+
    PORTC &= ~(1 << PC4);
    PORTC &= ~(1 << PC5);
 
@@ -122,7 +122,7 @@ static void readWss(void)
       stepsRight[1][2] = 0;
       stepsRight[2][1] = 0;
    }
-   
+
    if(attitude.speedLeft > 1000)
    {
       PCMSK2 = (1 << PCINT17);
@@ -149,7 +149,7 @@ static void readWss(void)
       rawSensorData.wssLeft = wssLeft;
       wssLeft = 0;
    }
-   
+
    rawSensorData.position += rawSensorData.wssRight + rawSensorData.wssLeft;
    rawSensorData.diffSide += rawSensorData.wssRight - rawSensorData.wssLeft;
 }
@@ -166,7 +166,7 @@ static force_inline uint8_t currentAdc(uint8_t admux) { return admux & 0x0f; }
 ISR(ADC_vect)
 {
    uint8_t admux = ADMUX;
-   
+
    if(currentAdc(admux) == 0)
    {
       voltage = ADC;

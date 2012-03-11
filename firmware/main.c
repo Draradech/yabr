@@ -17,6 +17,7 @@ void noreturn main(void)
       soundMain();
       readSensors();
       attitudeCalculation();
+      controlAlgo();
       actuate();
       input();
       output();

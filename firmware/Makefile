@@ -11,7 +11,7 @@ TARGET = yabr
 
 
 # C source files
-SRC = actuator.c attitude.c environment.c init.c main.c math.c notes.c ram.c sensor.c serial.c sound.c sounds.c
+SRC = actuator.c attitude.c control.c environment.c init.c main.c math.c notes.c ram.c sensor.c serial.c sound.c sounds.c
 
 
 # Optimization level
@@ -107,18 +107,26 @@ size:
 
 # Program the device  
 program: $(TARGET).hex
+	@cat bootloader > $(AVRDUDE_PORT)
 	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_PROGRAM_FLASH)"
 	@printf "$(MSG_NEWLINE)"
+	@sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
+	@sleep 1
+	@cat endbootloader > $(AVRDUDE_PORT)
 
 
 # Program the eeprom
 program_eeprom: $(TARGET).eep
+	@cat bootloader > $(AVRDUDE_PORT)
 	@printf "$(MSG_NEWLINE)"
 	@printf "$(MSG_PROGRAM_EEPROM)"
 	@printf "$(MSG_NEWLINE)"
+	@sleep 1
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_EEPROM)
+	@sleep 1
+	@cat endbootloader > $(AVRDUDE_PORT)
 
 
 # Create final output files (.hex, .eep) from ELF output file.
