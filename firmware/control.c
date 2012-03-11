@@ -10,7 +10,7 @@ void controlAlgo(void)
    control.angleTarget = control.angleBySpeed + control.angleByPosition;
 
    angleDiff = (attitude.angleFused - control.angleTarget );
-   byAngle = angleDiff / controlPara.powerByAngleDiv / 8;
+   byAngle = angleDiff / controlPara.powerByAngleDiv / 16;
    byRate = attitude.angleRate / controlPara.powerByAngleRateDiv / 256;
 
    actuator.powerLeft = byAngle + byRate + attitude.diffSide;

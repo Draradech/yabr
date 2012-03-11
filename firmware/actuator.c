@@ -1,7 +1,7 @@
 #include "stdinc.h"
 #include "sounds.h"
 
-#define POWERLIMIT 100
+#define POWERLIMIT 150
 
 void actuate()
 {
@@ -11,7 +11,7 @@ void actuate()
    if (attitude.voltage < 13000) actuator.deactivated = true;
    if (actuator.initCountdown) actuator.initCountdown--;
 
-   if (attitude.angleFused > 300000 || attitude.angleFused < -300000)
+   if (attitude.angleFused > 450000 || attitude.angleFused < -450000)
    {
       if(!actuator.tempDisabled)
       {

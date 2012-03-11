@@ -137,10 +137,10 @@ void init(void)
    sensorOffsets.vertAcc = -95;
    sensorOffsets.angle = -210;
    
-   controlPara.angleBySpeed = -20;
-   controlPara.angleByPosition = -55;
-   controlPara.powerByAngleDiv = 50;
-   controlPara.powerByAngleRateDiv = 60;
+   controlPara.angleBySpeed = -75;
+   controlPara.angleByPosition = -85;
+   controlPara.powerByAngleDiv = 80;
+   controlPara.powerByAngleRateDiv = 50;
 
    // Enable Interrupts
    sei();
