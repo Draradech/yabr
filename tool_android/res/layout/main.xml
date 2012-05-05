@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+>
+   <TextView
+   android:id="@+id/text"
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
+   android:layout_weight="1.0"
+   android:text="Hello!"
+   />
+   <LinearLayout
+   android:orientation="horizontal"
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
+   >
+      <Button
+      android:id="@+id/connect_button"
+      android:layout_width="wrap_content"
+      android:layout_height="fill_parent"
+      android:layout_weight="0.5"
+      android:text="Connect"
+      android:onClick="connect"
+      />
+      <Button
+      android:id="@+id/mode_button"
+      android:layout_width="wrap_content"
+      android:layout_height="fill_parent"
+      android:layout_weight="0.5"
+      android:text="Enable Acc"
+      android:enabled="false"
+      android:onClick="mode"
+      />
+   </LinearLayout>
+</LinearLayout>
+
