@@ -41,9 +41,52 @@ void input(void)
             {
                #include "../ptable.inc"
             }
+            break;
+         }
+         case 'm':
+         {
+            measurementOut = true;
+            break;
+         }
+         case 's':
+         {
+            measurementOut = false;
+            break;
+         }
+         case 'x':
+         {
+            measurementOut = !measurementOut;
+            break;
+         }
+         case 'f':
+         {
+            if(attitude.angleFused < 450000 && attitude.angleFused > -450000)
+            {
+               rawSensorData.position += (int8_t)data[0] * 10;
+            }
+            else
+            {
+               gcontrol.countdown = 60;
+               gcontrol.speed = (int8_t)data[0];
+            }
+            break;
+         }
+         case 'l':
+         {
+            if(attitude.angleFused < 450000 && attitude.angleFused > -450000)
+            {
+               rawSensorData.diffSide += (int8_t)data[0];
+            }
+            else
+            {
+               gcontrol.countdown = 60;
+               gcontrol.rl = (int8_t)data[0];
+            }
+            break;
          }
       }
    }
+   if(gcontrol.countdown) gcontrol.countdown--;
 }
 
 
@@ -52,19 +95,22 @@ case ID: sendData16(var >> rightshift); break;
 
 void output(void)
 {
-   sendPacketBegin('t');
-   for(uint8_t c = 0; c < CHANNELS; c++)
+   if(measurementOut)
    {
-      switch(channel[c])
+      sendPacketBegin('t');
+      for(uint8_t c = 0; c < CHANNELS; c++)
       {
-         #include "../mtable.inc"
+         switch(channel[c])
+         {
+            #include "../mtable.inc"
+            default: sendData16(-1); break;
+         }
+      }
+      switch(pchannel)
+      {
+         #include "../ptable.inc"
          default: sendData16(-1); break;
       }
+      sendPacketEnd();
    }
-   switch(pchannel)
-   {
-      #include "../ptable.inc"
-      default: sendData16(-1); break;
-   }
-   sendPacketEnd();
 }

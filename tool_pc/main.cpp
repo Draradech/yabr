@@ -60,44 +60,46 @@ int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
 
-   if(argc < 2)
+    if(argc < 2)
     {
         printf("Give serial port as parameter.\n");
         return -1;
     }
 
-   if(!openComPort(argv[1]))
-   {
-       printf("Cannot open serial port %s.\n", argv[1]);
+    if(!openComPort(argv[1]))
+    {
+        printf("Cannot open serial port %s.\n", argv[1]);
         return -1;
-   }
+    }
 
-   pTool = new CTool();
+    pTool = new CTool();
 
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
-    
-   glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 
-   glutCreateWindow("yabr measurement tool");
-   glutFullScreen();
+    glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
+
+    glutCreateWindow("yabr measurement tool");
+    glutFullScreen();
 
     glutIgnoreKeyRepeat(true);
 
     glutDisplayFunc(display);
-   glutIdleFunc(idle);
+    glutIdleFunc(idle);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboardUp);
     glutMouseFunc(mouse);
     glutPassiveMotionFunc(passiveMotion);
 
-   sendByte('X');
+    sendByte('X');
+    pTool->getUi()->sendPacketBegin('m');
+    pTool->getUi()->sendPacketEnd();
 
-   glutMainLoop();
+    glutMainLoop();
 
-   delete pTool;
+    delete pTool;
 
-   closeComPort();
+    closeComPort();
 
-   return 0;
+    return 0;
 }

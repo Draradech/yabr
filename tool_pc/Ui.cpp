@@ -48,7 +48,8 @@ void CUi::keyDown(char key)
 				}
 				case ' ':
 				{
-					m_pTool->getChannelHandler()->togglePause();
+					sendPacketBegin('x');
+                                        sendPacketEnd();
 					break;
 				}
 				case 'i':
@@ -59,6 +60,34 @@ void CUi::keyDown(char key)
 				case 'o':
 				{
 					if(m_iZoomOut < 10) m_iZoomOut++;
+					break;
+				}
+				case 'w':
+				{
+					sendPacketBegin('f');
+					sendData(75);
+					sendPacketEnd();
+					break;
+				}
+				case 's':
+				{
+					sendPacketBegin('f');
+					sendData(-75);
+					sendPacketEnd();
+					break;
+				}
+				case 'a':
+				{
+					sendPacketBegin('l');
+					sendData(-75);
+					sendPacketEnd();
+					break;
+				}
+				case 'd':
+				{
+					sendPacketBegin('l');
+					sendData(75);
+					sendPacketEnd();
 					break;
 				}
 				// todo: check bounds

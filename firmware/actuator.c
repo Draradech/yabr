@@ -1,17 +1,25 @@
 #include "stdinc.h"
 #include "sounds.h"
 
-#define POWERLIMIT 150
-
 void actuate()
 {
-   int16_t powerLeft = actuator.powerLeft;
-   int16_t powerRight = actuator.powerRight;
+   int16_t powerLeft, powerRight, powerLimit;
 
-   if (attitude.voltage < 13000) actuator.deactivated = true;
+   //powerLimit = 0;
+   powerLimit = (int32_t)150 * 16000 / attitude.voltage;
+   powerLeft = (int32_t)actuator.powerLeft * 16000 / attitude.voltage;
+   powerRight = (int32_t)actuator.powerRight * 16000 / attitude.voltage;
+
+   if (attitude.voltage < 12000) actuator.deactivated = true;
    if (actuator.initCountdown) actuator.initCountdown--;
 
-   if (attitude.angleFused > 450000 || attitude.angleFused < -450000)
+   if (  attitude.angleFused >  450000
+      || attitude.angleFused < -450000
+      || attitude.speedRight >    4000
+      || attitude.speedLeft  >    4000
+      || attitude.speedRight <   -4000
+      || attitude.speedLeft  <   -4000
+      )
    {
       if(!actuator.tempDisabled)
       {
@@ -25,17 +33,31 @@ void actuate()
       setSound(ENABLE);
    }
 
-   if (powerLeft < 0 && !actuator.deactivated && !actuator.tempDisabled)
+   if(actuator.tempDisabled)
+   {
+      //if(gcontrol.countdown)
+      if(false)
+      {
+         powerLeft = gcontrol.speed + gcontrol.rl/4;
+         powerRight = gcontrol.speed - gcontrol.rl/4;
+      }
+      else
+      {
+         powerLeft = powerRight = 0;
+      }
+   }
+
+   if (powerLeft < 0 && !actuator.deactivated)
    {
       PORTC |=  (1 << PC2);
       PORTC &= ~(1 << PC3);
-      OCR2A = MIN(-powerLeft, POWERLIMIT);
+      OCR2A = MIN(-powerLeft, powerLimit);
    }
-   else if (powerLeft > 0 && !actuator.deactivated && !actuator.tempDisabled)
+   else if (powerLeft > 0 && !actuator.deactivated)
    {
       PORTC &= ~(1 << PC2);
       PORTC |=  (1 << PC3);
-      OCR2A = MIN(powerLeft, POWERLIMIT);
+      OCR2A = MIN(powerLeft, powerLimit);
    }
    else
    {
@@ -44,17 +66,17 @@ void actuate()
       OCR2A = 0;
    }
 
-   if (powerRight < 0 && !actuator.deactivated && !actuator.tempDisabled)
+   if (powerRight < 0 && !actuator.deactivated)
    {
       PORTB |=  (1 << PB2);
       PORTB &= ~(1 << PB3);
-      OCR2B = MIN(-powerRight, POWERLIMIT);
+      OCR2B = MIN(-powerRight, powerLimit);
    }
-   else if (powerRight > 0 && !actuator.deactivated && !actuator.tempDisabled)
+   else if (powerRight > 0 && !actuator.deactivated)
    {
       PORTB &= ~(1 << PB2);
       PORTB |=  (1 << PB3);
-      OCR2B = MIN(powerRight, POWERLIMIT);
+      OCR2B = MIN(powerRight, powerLimit);
    }
    else
    {

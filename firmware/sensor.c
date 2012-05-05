@@ -4,8 +4,10 @@ static volatile uint16_t voltage = 789;
 static volatile uint16_t sonar1, sonar2;
 static volatile int16_t wssRight, wssLeft;
 
-static int8_t stepsRight[4][4] = {{0, 1, -1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, -1, 1, 0}};
+static int8_t stepsRight[4][4] = {{0, 0, -1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, -1, 2, 0}};
+//static int8_t stepsRight[4][4] = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 static int8_t stepsLeft[4][4] = {{0, -1, 1, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 1, -1, 0}};
+//static int8_t stepsLeft[4][4] = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
 static uint8_t spiSendRecv(uint8_t byte)
 {
@@ -152,6 +154,12 @@ static void readWss(void)
 
    rawSensorData.position += rawSensorData.wssRight + rawSensorData.wssLeft;
    rawSensorData.diffSide += rawSensorData.wssRight - rawSensorData.wssLeft;
+
+   if (attitude.angleFused > 450000 || attitude.angleFused < -450000)
+   {
+      rawSensorData.position = 0;
+      rawSensorData.diffSide = 0;
+   }
 }
 
 void readSensors(void)

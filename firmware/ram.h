@@ -28,7 +28,7 @@ typedef struct
 {
     int16_t angleRate;
     int16_t subAngleRate;
-    
+
     int16_t angle;
 
     int16_t longAcc;
@@ -74,6 +74,8 @@ typedef struct
     int16_t angleByPosition;
     int16_t powerByAngleDiv;
     int16_t powerByAngleRateDiv;
+    int8_t targetPosition;
+    int8_t targetRL;
 } SControlPara;
 
 typedef struct
@@ -83,6 +85,14 @@ typedef struct
     int32_t angleTarget;
 } SControl;
 
+typedef struct
+{
+    uint8_t countdown;
+    int8_t speed;
+    int8_t rl;
+} SGroundControl;
+
+global SGroundControl gcontrol;
 global SControl control;
 global SControlPara controlPara;
 global SActuator actuator;
@@ -91,5 +101,6 @@ global SSensorOffsets sensorOffsets;
 global SAttitude attitude;
 
 global uint8_t lastLoopTicks;
+global bool measurementOut;
 
 #endif // _RAM_H_ 

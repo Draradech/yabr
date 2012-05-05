@@ -123,8 +123,8 @@ void init(void)
           | (1 << COM2B1)
           | (1 << WGM20);      // non-inverting phase-correct PWM mode
 
-   TCCR2B = (1 << CS20)
-          | (1 << CS22);       // Prescalar 32 -> ~1,2khz PWM
+   TCCR2B = (1 << CS20);
+//          | (1 << CS22);       // Prescalar 32 -> ~1,2khz PWM
 
    // Ram Vars
    attitude.voltage =  14800;          // initialize battery voltage to lipo nominal
@@ -137,10 +137,10 @@ void init(void)
    sensorOffsets.vertAcc = -95;
    sensorOffsets.angle = -210;
    
-   controlPara.angleBySpeed = -75;
-   controlPara.angleByPosition = -85;
-   controlPara.powerByAngleDiv = 80;
-   controlPara.powerByAngleRateDiv = 50;
+   controlPara.angleBySpeed = -70;
+   controlPara.angleByPosition = -80;
+   controlPara.powerByAngleDiv = 140;
+   controlPara.powerByAngleRateDiv = 140;
 
    // Enable Interrupts
    sei();

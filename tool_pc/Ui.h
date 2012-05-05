@@ -28,16 +28,15 @@ public:
 	void mouseMotion(int x, int y);
 	void draw(int width, int height);
 	int getZoomOut();
-
-private:
 	void sendPacketBegin(unsigned char command);
 	void sendPacketEnd(void);
 	void sendData(unsigned char byte);
 
+private:
 	CTool* m_pTool;
 	int m_iMouseX, m_iMouseY;
 	char m_sBuffer[512];
 	Overlay_t m_eActiveOverlay;
-    int m_iZoomOut;
+	int m_iZoomOut;
 	int m_iSkip;
 };
